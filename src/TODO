@@ -1,0 +1,12 @@
+TODO:
+ - JavaFXChessBoard: part b+d+e, setBoardDisplay
+ - JavaFXEuropeanChessDisplay:
+     + utilize setBackground
+     + setGraphic in displayFilledSquare (has to be sth != null)
+     + For the pieces, you would add a second BackgroundFill to the background
+        but this time use the color for the piece's side,
+        and set the CorderRadii and Insets so that the piece is rounded
+        and allows the background color behind it to be visible.
+ - facing king
+ - legalSoldier logic
+ - CannonPiece logic

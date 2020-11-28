@@ -1,15 +1,22 @@
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 
-public class SwingChessBoard implements ChessBoard {
+import javax.swing.*;
+import java.util.List;
+
+public class JavaFXChessBoard extends Application implements ChessBoard {
 
     // the game board
-    private JFrame board;
+    private Scene board;
 
     // the squares of the board
-    private JButton[][] squares;
+    private Button[][] squares;
 
     // stores the pieces
     private ChessPiece[][] pieces;
@@ -18,69 +25,10 @@ public class SwingChessBoard implements ChessBoard {
     private ChessGame gameRules;
 
     // rules for how to draw the chess board
-    private SwingChessBoardDisplay boardDisplay;
+    private JavaFXChessBoardDisplay boardDisplay;
 
     // magnify the board for easier gameplay - Lam Nguyen add on
     private final int MAGNIFY_RATE = 2;
-
-    /**
-     *
-     */
-    public SwingChessBoard(SwingChessBoardDisplay boardDisplay, ChessGame chessGame) {
-        this(chessGame.getNumRows(), chessGame.getNumColumns(), boardDisplay, chessGame);
-    }
-
-    /**
-     * Builds a board of the desired size, the display parameters, and the rules for the chess game.
-     * @param numRows   the number of rows for the chessboard
-     * @param numColumns  the number of columns for the chessboard
-     * @param boardDisplay  an object that determines how the squares on the chessboard should be drawn
-     * @param gameRules  an object that determines when player selection is valid and to update the game with the result of a move
-     */
-    public SwingChessBoard(final int numRows, final int numColumns, SwingChessBoardDisplay boardDisplay, ChessGame gameRules) {
-        // for Mac computers: this allows us to change a button background
-        try {
-            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-        }
-        catch (Exception e) {
-        }
-
-        // initialize the board
-        this.gameRules = gameRules;
-        this.boardDisplay = boardDisplay;
-        pieces = new ChessPiece[numRows][numColumns];
-        squares = new JButton[numRows][numColumns];
-
-        // create the board visuals on the event dispatch thread
-        try {
-            SwingUtilities.invokeAndWait(new Runnable() {
-                public void run() {
-                    board = new JFrame();
-
-                    // create a grid for the squares and the listener for the user clicks
-                    JPanel panel = new JPanel(new GridLayout(numRows, numColumns));
-                    ActionListener responder = new ChessAction();
-
-                    // create the squares
-                    for (int i = 0; i < numRows; i++) {
-                        for (int j = 0; j < numColumns; j++) {
-                            squares[i][j] = new JButton();
-                            squares[i][j].addActionListener(responder);
-                            boardDisplay.displayEmptySquare(squares[i][j], i, j);
-                            panel.add(squares[i][j]);
-                            pieces[i][j] = null;
-                        }
-                    }
-                    board.add(panel);
-                    board.setSize(boardDisplay.getSquareSize() * numColumns * MAGNIFY_RATE, boardDisplay.getSquareSize() * numRows * MAGNIFY_RATE);
-                    board.setVisible(true);
-                }
-            });
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     /**
      * Returns the rules of the game.
@@ -199,8 +147,12 @@ public class SwingChessBoard implements ChessBoard {
         return pieces[row][col];
     }
 
+    public void setBoardDisplay(JavaFXChessBoardDisplay boardDisplay) {
+        this.boardDisplay = boardDisplay;
+    }
+
     /** The code the responds when the user clicks on the game board */
-    private class ChessAction implements ActionListener {
+    private class ChessAction implements EventHandler<ActionEvent> {
         private boolean firstPick = true;  // if true, we a selecting a piece
         private int pieceRow;              // remember row of selected piece
         private int pieceCol;              // remember column of selected piece
@@ -248,15 +200,16 @@ public class SwingChessBoard implements ChessBoard {
          *  legalMove is called, and if the move is legal, the piece is moved.
          *  @param e   the event that triggered the method
          */
-        public void actionPerformed(ActionEvent e) {
-            JButton b = (JButton)e.getSource();
+        @Override
+        public void handle(ActionEvent e) {
+            Button b = (Button) e.getSource();
             int col = -1;
             int row = -1;
 
             // first find which button (board square) was clicked.
             for (int i = 0; i < squares.length; i++) {
                 for (int j = 0; j < squares[i].length; j++) {
-                    if (squares[i][j] == b) {
+                    if (squares[i][j].equals(b)) {
                         row = i;
                         col = j;
                     }
@@ -289,6 +242,32 @@ public class SwingChessBoard implements ChessBoard {
         }
         return false;
     }
+
+    /**
+     * Initialize the game
+     * @param stage
+     */
+    @Override
+    public void start(Stage stage) {
+        TextArea ta = new TextArea("");
+        List<String> params = getParameters().getRaw();
+        System.out.println(params.toString());
+
+        String input = "CHESS";
+
+        if (input == "CHESS") {
+
+        }
+
+        BorderPane pane = new BorderPane();
+        pane.setCenter(ta);
+        Scene scene = new Scene(pane);
+
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public static void main(String[] args) {
+        Application.launch(args);
+    }
 }
-
-

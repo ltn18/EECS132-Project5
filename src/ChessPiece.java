@@ -32,6 +32,9 @@ public abstract class ChessPiece {
     // the boolean rookFirstMove set to false only for rooks making first move
     private boolean rookFirstMove = true;
 
+    // the boolean that determines whether the soldier has pass middle boundary
+    private boolean soldierPassBound = false;
+
     // ChessPiece constructor that takes in label, side, and board associated with the piece
     public ChessPiece(String label, ChessGame.Side side, ChessBoard board) {
         this.side = side;
@@ -125,7 +128,44 @@ public abstract class ChessPiece {
 
     // check if the piece made a legal diagonal path or not
     public boolean legalDiagonalPath(int toRow, int toColumn) {
-        if (getLabel() == "R") {
+
+        if (getLabel().equals("G")) {
+            if (Math.abs(getRow() - toRow) != 1 || Math.abs((getColumn() - toColumn)) != 1) {
+                return false;
+            } else {
+                if (toColumn < 3 || toColumn > 5) {
+                    return false;
+                } else {
+                    ChessGame.Side side = getChessBoard().getPiece(getRow(), getColumn()).getSide();
+                    if (side == ChessGame.Side.NORTH) {
+                        return toRow > 2;
+                    }
+                    else if (side == ChessGame.Side.SOUTH) {
+                        return toRow < 7;
+                    }
+                }
+            }
+        }
+
+        if (getLabel().equals("E")) {
+            if (Math.abs(getRow() - toRow) != 2 || Math.abs((getColumn() - toColumn)) != 2) {
+                return false;
+            } else {
+                ChessGame.Side side = getChessBoard().getPiece(getRow(), getColumn()).getSide();
+                if (side == ChessGame.Side.NORTH) {
+                    return toColumn > 4;
+                }
+                else if (side == ChessGame.Side.SOUTH) {
+                    return toColumn < 5;
+                }
+            }
+        }
+
+        if (getLabel().equals("C")) {
+            return false;
+        }
+
+        if (getLabel().equals("R")) {
             return false;
         }
 
@@ -156,7 +196,11 @@ public abstract class ChessPiece {
 
     // check if the piece made a legal horizontal path or not
     public boolean legalHorizontalPath(int toRow, int toColumn) {
-        if (getLabel() == "B") {
+        if (getLabel().equals("H")) {
+            return false;
+        }
+
+        if (getLabel().equals("B")) {
             return false;
         }
 
@@ -178,7 +222,11 @@ public abstract class ChessPiece {
 
     // check if the piece made a legal vertical path or not
     public boolean legalVerticalPath(int toRow, int toColumn) {
-        if (getLabel() == "B") {
+        if (getLabel().equals("H")) {
+            return false;
+        }
+
+        if (getLabel().equals("B")) {
             return false;
         }
 
@@ -203,5 +251,13 @@ public abstract class ChessPiece {
         }
 
         return true;
+    }
+
+    public boolean getSoldierPassBound() {
+        return soldierPassBound;
+    }
+
+    public void setSoldierPassBound(boolean soldierPassBound) {
+        this.soldierPassBound = soldierPassBound;
     }
 }

@@ -22,6 +22,21 @@ public class EuropeanChess implements ChessGame {
         return firstPlayer;
     }
 
+    @Override
+    public int getNumRows() {
+        return 8;
+    }
+
+    @Override
+    public int getNumColumns() {
+        return 8;
+    }
+
+    @Override
+    public void startGame(ChessBoard board) {
+        StartGame.initEuropeanChess();
+    }
+
     // update the next player
     public void setCurrentSide(Side currentSide) {
         this.currentSide = currentSide;

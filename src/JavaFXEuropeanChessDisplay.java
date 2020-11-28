@@ -1,11 +1,8 @@
-import javax.swing.*;
+import javafx.scene.control.Button;
+
 import java.awt.*;
 
-/** Rules for how we want a board to display for a game of European chess
- *
- * @author Harold Connamacher
- */
-public class EuropeanChessDisplay implements ChessBoardDisplay {
+public class JavaFXEuropeanChessDisplay implements JavaFXChessBoardDisplay {
 
     /** The primary color of the checkerboard */
     public static Color redColor   = Color.red;
@@ -34,10 +31,12 @@ public class EuropeanChessDisplay implements ChessBoardDisplay {
      * @param row    the row of this square on the board
      * @param column the column of this square on the board
      */
-    public void displayEmptySquare(JButton button, int row, int column) {
-        button.setBackground((row + column) % 2 == 0 ? Color.black : Color.red);
+    public void displayEmptySquare(Button button, int row, int column) {
+        String color = (row + column) % 2 == 0 ? "#000000" : "#ff0000";
+        String style = "-fx-background-color: " + color + ";";
+        button.setStyle(style);
         button.setText(null);
-        button.setIcon(null);
+        button.setGraphic(null);
     }
 
     /**
@@ -47,7 +46,7 @@ public class EuropeanChessDisplay implements ChessBoardDisplay {
      * @param column the column of this square on the board
      * @param piece  the piece that is on this square
      */
-    public void displayFilledSquare(JButton button, int row, int column, ChessPiece piece) {
+    public void displayFilledSquare(Button button, int row, int column, ChessPiece piece) {
         Color pieceColor;
 
         switch (piece.getSide()) {
@@ -60,9 +59,10 @@ public class EuropeanChessDisplay implements ChessBoardDisplay {
             default:      pieceColor = westPlayerColor;
         }
 
-        button.setBackground(pieceColor);
+        String style = "-fx-background-color: " + pieceColor + ";";
+        button.setStyle(style);
         button.setText(piece.getLabel());
-        button.setIcon((Icon)piece.getIcon());
+        button.setGraphic(null);
     }
 
     /**
@@ -73,9 +73,10 @@ public class EuropeanChessDisplay implements ChessBoardDisplay {
      * @param column     the column of this square on the board
      * @param piece      the piece (if any) that is on this square
      */
-    public void highlightSquare(boolean highlight, JButton button, int row, int column, ChessPiece piece) {
+    public void highlightSquare(boolean highlight, Button button, int row, int column, ChessPiece piece) {
         if (highlight) {
-            button.setBackground(highlightColor);
+            String style = "-fx-background-color: " + highlightColor + ";";
+            button.setStyle(style);
         }
         else if (piece == null)
             displayEmptySquare(button, row, column);

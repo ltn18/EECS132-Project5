@@ -1,7 +1,7 @@
 /**
  * An interface that encodes specific rules for a version of chess.
  *
- * @author Harold Connamacher
+ * @author Lam Nguyen
  */
 public interface ChessGame {
     /** The "side" or "team" or "player" the piece belongs to.
@@ -45,4 +45,23 @@ public interface ChessGame {
      * @return the first player's side
      */
     public Side getFirstPlayer();
+
+    /**
+     * @author: Lam Nguyen
+     * @return the number of rows in this chess game
+     */
+    int getNumRows();
+
+    /**
+     * @author: Lam Nguyen
+     * @return the number of columns in this chess game
+     */
+    int getNumColumns();
+
+    /**
+     * @author: Lam Nguyen
+     *
+     */
+    void startGame(ChessBoard board);
+
 }

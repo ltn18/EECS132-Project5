@@ -37,6 +37,17 @@ public abstract class LPiece extends ChessPiece {
             return true;
         }
 
+        // Check Xianqi Horse
+        if (getChessBoard().getPiece(getRow(), getColumn()).getLabel().equals("H")) {
+            for (int i = Math.min(getRow(), toRow); i <= Math.max(getRow(), toRow); i++) {
+                for (int j = Math.min(getColumn(), toColumn); j <= Math.max(getColumn(), toColumn); j++) {
+                    if (getChessBoard().hasPiece(i, j)) {
+                        return false;
+                    }
+                }
+            }
+        }
+
         return false;
     }
 

@@ -14,7 +14,27 @@ public abstract class SPiece extends ChessPiece {
 
     // check whether the king is moved properly
     private boolean legalKing(ChessPiece piece, int toRow, int toColumn) {
-        if (piece.getLabel() == "K") {
+
+        // Xianqi North South Game
+        if (piece.getLabel().equals("X")) {
+            if (Math.abs(toRow - getRow()) > 1 || Math.abs(toColumn - getColumn()) > 1) {
+                return false;
+            } else {
+                if (toColumn < 3 || toColumn > 5) {
+                    return false;
+                } else {
+                    if (piece.getSide() == ChessGame.Side.NORTH) {
+                        return toRow <= 2;
+                    }
+                    else if (piece.getSide() == ChessGame.Side.SOUTH) {
+                        return toRow >= 7;
+                    }
+                }
+            }
+        }
+
+        // European North South Game
+        else if (piece.getLabel().equals("K")) {
             // check if the movement of the king exceeds 1 step
             if (Math.max(toRow, getRow()) > Math.min(toRow, getRow()) + 1 || Math.max(toColumn, getColumn()) > Math.min(toColumn, getColumn()) + 1) {
                 if (legalCastle(toColumn)) {
@@ -46,14 +66,49 @@ public abstract class SPiece extends ChessPiece {
             } else {
                 return true;
             }
-        } else {
-            return true;
         }
+
+        return true;
+    }
+
+    // check whether the xianqi soldier is moved properly
+    private boolean legalSoldier(ChessPiece piece, int toRow, int toColumn) {
+        // side of the piece
+        ChessGame.Side side = piece.getSide();
+
+        if (piece.getLabel().equals("S")) {
+            if (!piece.getSoldierPassBound()) {
+                if (Math.abs(getRow() - toRow) != 1 && Math.abs(getColumn() - toColumn) != 0) {
+                    return false;
+                }
+            }
+            else {
+                if (Math.abs(getRow() - toRow) > 1 || Math.abs(getColumn() - toColumn) > 1) {
+                    return false;
+                }
+            }
+
+            if ((side == ChessGame.Side.NORTH && toRow >= 5)
+                    || (side == ChessGame.Side.SOUTH && toRow <= 4)) {
+                piece.setSoldierPassBound(true);
+            }
+        }
+
+        return true;
+    }
+
+    // check cannon's legal capture move
+    private boolean legalCannonCapture(ChessPiece piece, int toRow, int toColumn) {
+        if (piece.getLabel().equals("C")) {
+
+        }
+
+        return true;
     }
 
     // check whether the pawn is moved properly
     private boolean legalPawn(ChessPiece piece, int toRow, int toColumn) {
-        if (piece.getLabel() == "P") {
+        if (piece.getLabel().equals("P")) {
             // check whether the movement of the pawn exceeds one step
             if (Math.max(toRow, getRow()) > Math.min(toRow, getRow()) + 1) {
                 if (!piece.getPawnFirstMove()) {
@@ -143,7 +198,10 @@ public abstract class SPiece extends ChessPiece {
             }
         }
 
-        return legalPawn(this, toRow, toColumn) && legalKing(this, toRow, toColumn)
+        return legalCannonCapture(this, toRow, toColumn)
+                && legalSoldier(this, toRow, toColumn)
+                && legalPawn(this, toRow, toColumn)
+                && legalKing(this, toRow, toColumn)
                 && (legalDiagonalPath(toRow, toColumn)
                 || legalHorizontalPath(toRow, toColumn)
                 || legalVerticalPath(toRow, toColumn));
