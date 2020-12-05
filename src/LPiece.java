@@ -10,9 +10,32 @@ public abstract class LPiece extends ChessPiece {
         super(label, side, board);
     }
 
+    private boolean isLegalHorse(int toRow, int toColumn) {
+        System.out.println(getRow() + " " + getColumn());
+        System.out.println(toRow + " " + toColumn);
+        System.out.println("min: " + Math.min(getRow(), toRow) + " max: " + Math.max(getRow(), toRow));
+
+        if (getChessBoard().getPiece(getRow(), getColumn()).getLabel().equals("H")) {
+            for (int i = Math.min(getRow(), toRow); i <= Math.max(getRow(), toRow); i++) {
+                for (int j = Math.min(getColumn(), toColumn); j <= Math.max(getColumn(), toColumn); j++) {
+                    if (getChessBoard().hasPiece(i, j)) {
+                        return false;
+                    }
+                }
+            }
+
+        }
+
+        return true;
+    }
+
     // check whether the knight piece has made a legal move
     public boolean isLegalMove(int toRow, int toColumn) {
         System.out.println("L-type");
+
+        if (!isLegalHorse(toRow, toColumn)) {
+            return false;
+        }
 
         // check if there is a piece of the same side at the designated position
         if (getChessBoard().hasPiece(toRow, toColumn)) {
@@ -35,17 +58,6 @@ public abstract class LPiece extends ChessPiece {
 
         if (getColumn() - 2 == toColumn && (getRow() + 1 == toRow || getRow() - 1 == toRow)) {
             return true;
-        }
-
-        // Check Xianqi Horse
-        if (getChessBoard().getPiece(getRow(), getColumn()).getLabel().equals("H")) {
-            for (int i = Math.min(getRow(), toRow); i <= Math.max(getRow(), toRow); i++) {
-                for (int j = Math.min(getColumn(), toColumn); j <= Math.max(getColumn(), toColumn); j++) {
-                    if (getChessBoard().hasPiece(i, j)) {
-                        return false;
-                    }
-                }
-            }
         }
 
         return false;

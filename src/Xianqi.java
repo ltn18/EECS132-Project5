@@ -20,7 +20,41 @@ public class Xianqi implements ChessGame {
     @Override
     // return whether a selected piece can be played or not
     public boolean legalPieceToPlay(ChessPiece piece, int row, int column) {
-        return piece.getChessBoard().hasPiece(row, column) && piece.getSide() == currentSide;
+        return true;
+//        return piece.getChessBoard().hasPiece(row, column) && piece.getSide() == currentSide;
+    }
+
+    private boolean notFacingKing(ChessPiece piece) {
+        ChessPiece northK = null;
+        ChessPiece southK = null;
+
+//        for (int i = 3; i <= 5; i++) {
+//            for (int j = 0; j <= 2; j++) {
+//                if (piece.getChessBoard().hasPiece(i, j)
+//                        && piece.getChessBoard().getPiece(i, j).getLabel().equals("K")) {
+//                    northK = piece.getChessBoard().getPiece(i, j);
+//                }
+//            }
+//
+//            for (int j = 7; j <= 9; j++) {
+//                if (piece.getChessBoard().hasPiece(i, j)
+//                        && piece.getChessBoard().getPiece(i, j).getLabel().equals("K")) {
+//                    southK = piece.getChessBoard().getPiece(i, j);
+//                }
+//            }
+//        }
+
+        boolean blocked = false;
+        if (southK != null && northK != null
+                && southK.getColumn() == northK.getColumn()) {
+            for (int i = 0; i < 10; i++) {
+                if (piece.getChessBoard().hasPiece(i, northK.getColumn())) {
+                    blocked = true;
+                }
+            }
+        }
+
+        return blocked;
     }
 
     @Override
@@ -31,7 +65,15 @@ public class Xianqi implements ChessGame {
             // the piece that is temporarily removed from the table
             ChessPiece save = piece.getChessBoard().removePiece(piece.getRow(), piece.getColumn());
 
+//            // check after the piece has been removed and make move if legit
+//            if (notFacingKing(piece)) {
+//                piece.getChessBoard().addPiece(save, toRow, toColumn);
+//            } else {
+//                piece.getChessBoard().addPiece(save, piece.getRow(), piece.getColumn());
+//            }
+
             piece.getChessBoard().addPiece(save, toRow, toColumn);
+
 
             System.out.println("curr: " + piece.getRow() + " " + piece.getColumn() + " " + piece.getLabel());
 
@@ -67,7 +109,7 @@ public class Xianqi implements ChessGame {
 
     @Override
     public void startGame(ChessBoard board) {
-
+        StartGame.initXianqi();
     }
 
     // return whether selection of a piece can be changed or not

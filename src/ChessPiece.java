@@ -130,34 +130,34 @@ public abstract class ChessPiece {
     public boolean legalDiagonalPath(int toRow, int toColumn) {
 
         if (getLabel().equals("G")) {
-            if (Math.abs(getRow() - toRow) != 1 || Math.abs((getColumn() - toColumn)) != 1) {
-                return false;
-            } else {
+            if (Math.abs(getRow() - toRow) == 1 && Math.abs((getColumn() - toColumn)) == 1) {
                 if (toColumn < 3 || toColumn > 5) {
                     return false;
                 } else {
                     ChessGame.Side side = getChessBoard().getPiece(getRow(), getColumn()).getSide();
                     if (side == ChessGame.Side.NORTH) {
-                        return toRow > 2;
+                        return toRow <= 2;
                     }
                     else if (side == ChessGame.Side.SOUTH) {
-                        return toRow < 7;
+                        return toRow >= 7;
                     }
                 }
+            } else {
+                return false;
             }
         }
 
         if (getLabel().equals("E")) {
-            if (Math.abs(getRow() - toRow) != 2 || Math.abs((getColumn() - toColumn)) != 2) {
-                return false;
-            } else {
+            if (Math.abs(getRow() - toRow) == 2 && Math.abs((getColumn() - toColumn)) == 2) {
                 ChessGame.Side side = getChessBoard().getPiece(getRow(), getColumn()).getSide();
                 if (side == ChessGame.Side.NORTH) {
-                    return toColumn > 4;
+                    return toColumn >= 4;
                 }
                 else if (side == ChessGame.Side.SOUTH) {
-                    return toColumn < 5;
+                    return toColumn <= 5;
                 }
+            } else {
+                return false;
             }
         }
 
@@ -196,6 +196,14 @@ public abstract class ChessPiece {
 
     // check if the piece made a legal horizontal path or not
     public boolean legalHorizontalPath(int toRow, int toColumn) {
+        if (getLabel().equals("G")) {
+            return false;
+        }
+
+        if (getLabel().equals("E")) {
+            return false;
+        }
+
         if (getLabel().equals("H")) {
             return false;
         }
@@ -208,9 +216,11 @@ public abstract class ChessPiece {
             System.out.println("Horizontal");
 
             // check if there is any piece in the path
-            for (int i = Math.min(toColumn, getColumn()) + 1; i < Math.max(toColumn, getColumn()); ++i) {
-                if (getChessBoard().hasPiece(getRow(), i)) {
-                    return false;
+            if (!getLabel().equals("C")) {
+                for (int i = Math.min(toColumn, getColumn()) + 1; i < Math.max(toColumn, getColumn()); ++i) {
+                    if (getChessBoard().hasPiece(getRow(), i)) {
+                        return false;
+                    }
                 }
             }
         } else {
@@ -222,6 +232,14 @@ public abstract class ChessPiece {
 
     // check if the piece made a legal vertical path or not
     public boolean legalVerticalPath(int toRow, int toColumn) {
+        if (getLabel().equals("G")) {
+            return false;
+        }
+
+        if (getLabel().equals("E")) {
+            return false;
+        }
+
         if (getLabel().equals("H")) {
             return false;
         }
@@ -241,11 +259,49 @@ public abstract class ChessPiece {
             }
 
             // check if there is any piece in the path
-            for (int i = Math.min(toRow, getRow()) + 1; i < Math.max(toRow, getRow()); ++i) {
-                if (getChessBoard().hasPiece(i, getColumn())) {
+            if (!getLabel().equals("C")) {
+                for (int i = Math.min(toRow, getRow()) + 1; i < Math.max(toRow, getRow()); ++i) {
+                    if (getChessBoard().hasPiece(i, getColumn())) {
+                        return false;
+                    }
+                }
+            }
+            else {
+                if (getChessBoard().hasPiece(toRow, toColumn)) {
+                    if (getChessBoard().getPiece(toRow, toColumn).getSide() == getChessBoard().getPiece(getRow(), getColumn()).getSide()) {
+                        return false;
+                    }
+                    else {
+                        int pieceCnt = 0;
+                        if (getRow() == toRow) {
+                            for (int j = Math.min(toColumn, getColumn()) + 1; j < Math.max(toColumn, getColumn()); j++) {
+                                if (getChessBoard().hasPiece(getRow(), j)) {
+                                    pieceCnt++;
+                                }
+                            }
+                        }
+                        else if (getColumn() == toColumn) {
+                            for (int j = Math.min(toRow, getRow()) + 1; j < Math.max(toRow, getRow()); j++) {
+                                if (getChessBoard().hasPiece(j, getColumn())) {
+                                    pieceCnt++;
+                                }
+                            }
+                        }
+
+                        System.out.println(pieceCnt);
+
+                        if (pieceCnt == 1) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }
+                }
+                else {
                     return false;
                 }
             }
+
         } else {
             return false;
         }

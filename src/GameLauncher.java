@@ -7,6 +7,6 @@ public class GameLauncher {
 
     public static void main(String[] args) {
         // store the complete board for run
-        StartGame.initEuropeanChess();
+        StartGame.initXianqi();
     }
 }

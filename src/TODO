@@ -7,6 +7,19 @@ TODO:
         but this time use the color for the piece's side,
         and set the CorderRadii and Insets so that the piece is rounded
         and allows the background color behind it to be visible.
- - facing king
- - legalSoldier logic
- - CannonPiece logic
+ - facing king (DONE)
+ - legalSoldier logic (DONE)
+ - CannonPiece logic (DONE)
+ - Xianqi StartGame: check logic and bounds
+
+PIECES:
+ - SOLDIER fix going through boundary (DONE) because the river is not visible
+ - CANNON fix capture (DONE)
+ - HORSE move (DONE)
+ - GUARD move inside (DONE)
+ - KING move (DONE)
+ - ROOK move (DONE)
+ - ELEPHANT:
+    + cross river (DONE)
+    + block (DONE)
+ - facing KING

@@ -97,15 +97,6 @@ public abstract class SPiece extends ChessPiece {
         return true;
     }
 
-    // check cannon's legal capture move
-    private boolean legalCannonCapture(ChessPiece piece, int toRow, int toColumn) {
-        if (piece.getLabel().equals("C")) {
-
-        }
-
-        return true;
-    }
-
     // check whether the pawn is moved properly
     private boolean legalPawn(ChessPiece piece, int toRow, int toColumn) {
         if (piece.getLabel().equals("P")) {
@@ -198,8 +189,7 @@ public abstract class SPiece extends ChessPiece {
             }
         }
 
-        return legalCannonCapture(this, toRow, toColumn)
-                && legalSoldier(this, toRow, toColumn)
+        return legalSoldier(this, toRow, toColumn)
                 && legalPawn(this, toRow, toColumn)
                 && legalKing(this, toRow, toColumn)
                 && (legalDiagonalPath(toRow, toColumn)
