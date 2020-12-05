@@ -3,12 +3,11 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 import javax.swing.*;
-import java.util.List;
+import java.util.Scanner;
 
 public class JavaFXChessBoard extends Application implements ChessBoard {
 
@@ -17,6 +16,10 @@ public class JavaFXChessBoard extends Application implements ChessBoard {
 
     // the squares of the board
     private Button[][] squares;
+
+    private int squaresRow;
+
+    private int squaresCol;
 
     // stores the pieces
     private ChessPiece[][] pieces;
@@ -243,26 +246,53 @@ public class JavaFXChessBoard extends Application implements ChessBoard {
         return false;
     }
 
+    private Button[][] init(int row, int col, String input) {
+        Button[][] board = new Button[row][col];
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                board[i][j] = new Button();
+                board[i][j].setOnAction(new ChessAction());
+                board[i][j].setPrefSize(60, 60);
+            }
+        }
+        if (input.toUpperCase().equals("CHESS")) {
+
+        }
+        else if (input.toUpperCase().equals("XIANQI")) {
+
+        }
+        return board;
+    }
+
     /**
      * Initialize the game
      * @param stage
      */
     @Override
     public void start(Stage stage) {
-        TextArea ta = new TextArea("");
-        List<String> params = getParameters().getRaw();
-        System.out.println(params.toString());
+        Scanner scanner = new Scanner(System.in);
+        String input = scanner.next();
 
-        String input = "CHESS";
-
-        if (input == "CHESS") {
-
+        if (input.toUpperCase().equals("CHESS")) {
+            squaresRow = 8;
+            squaresCol = 8;
+        }
+        else if (input.toUpperCase().equals("XIANQI")) {
+            squaresRow = 10;
+            squaresCol = 9;
         }
 
-        BorderPane pane = new BorderPane();
-        pane.setCenter(ta);
-        Scene scene = new Scene(pane);
+        squares = init(squaresRow, squaresCol, input);
 
+        GridPane pane = new GridPane();
+        pane.setPrefSize(squaresCol * 60,squaresRow * 60);
+        for (int i = 0; i < squares.length; i++) {
+            for (int j = 0; j < squares[i].length; j++) {
+                pane.add(squares[i][j], j+1, i+1);
+            }
+        }
+
+        Scene scene = new Scene(pane);
         stage.setScene(scene);
         stage.show();
     }

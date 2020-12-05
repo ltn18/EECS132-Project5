@@ -1,9 +1,8 @@
-public class StartGame {
+public class GameMain {
 
     // initialize the complete european board with south-north direction
-    public static SwingChessBoard initEuropeanChess() {
-        ChessGame.Side first = ChessGame.Side.SOUTH;
-        ChessGame.Side second = ChessGame.Side.NORTH;
+    public static SwingChessBoard initEuropeanChess(ChessGame.Side first) {
+        ChessGame.Side second = first == ChessGame.Side.SOUTH ? ChessGame.Side.NORTH : ChessGame.Side.SOUTH;
         EuropeanChess europeanChess = new EuropeanChess(first);
         SwingEuropeanChessDisplay swingEuropeanChessDisplay = new SwingEuropeanChessDisplay();
         SwingChessBoard swingChessBoard = new SwingChessBoard(8, 8, swingEuropeanChessDisplay, europeanChess);
@@ -43,9 +42,8 @@ public class StartGame {
     }
 
     // initialize the complete xianqi board with south-north direction
-    public static SwingChessBoard initXianqi() {
-        ChessGame.Side first = ChessGame.Side.SOUTH;
-        ChessGame.Side second = ChessGame.Side.NORTH;
+    public static SwingChessBoard initXianqi(ChessGame.Side first) {
+        ChessGame.Side second = first == ChessGame.Side.SOUTH ? ChessGame.Side.NORTH : ChessGame.Side.SOUTH;
         Xianqi xianqi = new Xianqi(first);
         SwingEuropeanChessDisplay swingEuropeanChessDisplay = new SwingEuropeanChessDisplay();
         SwingChessBoard swingChessBoard = new SwingChessBoard(10, 9, swingEuropeanChessDisplay, xianqi);
@@ -93,6 +91,16 @@ public class StartGame {
         swingChessBoard.addPiece(new CannonPiece(first, swingChessBoard), 7, 7);
 
         return swingChessBoard;
+    }
+
+    public static SwingChessBoard init(String input, ChessGame.Side first) {
+        if (input.toUpperCase().equals("CHESS")) {
+            return GameMain.initEuropeanChess(first);
+        }
+        else if (input.toUpperCase().equals("XIANQI")) {
+            return GameMain.initXianqi(first);
+        }
+        return null;
     }
 
 }

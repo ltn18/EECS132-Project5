@@ -107,9 +107,10 @@ public class Xianqi implements ChessGame {
         this.currentSide = currentSide;
     }
 
+    // create a south->north game
     @Override
     public void startGame(ChessBoard board) {
-        StartGame.initXianqi();
+        GameMain.initXianqi(Side.SOUTH);
     }
 
     // return whether selection of a piece can be changed or not

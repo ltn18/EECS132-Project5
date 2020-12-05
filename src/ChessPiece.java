@@ -223,6 +223,41 @@ public abstract class ChessPiece {
                     }
                 }
             }
+            else {
+                if (getChessBoard().hasPiece(toRow, toColumn)) {
+                    if (getChessBoard().getPiece(toRow, toColumn).getSide() == getChessBoard().getPiece(getRow(), getColumn()).getSide()) {
+                        return false;
+                    }
+                    else {
+                        int pieceCnt = 0;
+                        if (getRow() == toRow) {
+                            for (int j = Math.min(toColumn, getColumn()) + 1; j < Math.max(toColumn, getColumn()); j++) {
+                                if (getChessBoard().hasPiece(getRow(), j)) {
+                                    pieceCnt++;
+                                }
+                            }
+                        }
+                        else if (getColumn() == toColumn) {
+                            for (int j = Math.min(toRow, getRow()) + 1; j < Math.max(toRow, getRow()); j++) {
+                                if (getChessBoard().hasPiece(j, getColumn())) {
+                                    pieceCnt++;
+                                }
+                            }
+                        }
+
+                        System.out.println(pieceCnt);
+
+                        if (pieceCnt == 1) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }
+                }
+                else {
+                    return false;
+                }
+            }
         } else {
             return false;
         }
@@ -273,16 +308,16 @@ public abstract class ChessPiece {
                     }
                     else {
                         int pieceCnt = 0;
-                        if (getRow() == toRow) {
-                            for (int j = Math.min(toColumn, getColumn()) + 1; j < Math.max(toColumn, getColumn()); j++) {
-                                if (getChessBoard().hasPiece(getRow(), j)) {
+                        if (getColumn() == toColumn) {
+                            for (int j = Math.min(toRow, getRow()) + 1; j < Math.max(toRow, getRow()); j++) {
+                                if (getChessBoard().hasPiece(j, getColumn())) {
                                     pieceCnt++;
                                 }
                             }
                         }
-                        else if (getColumn() == toColumn) {
-                            for (int j = Math.min(toRow, getRow()) + 1; j < Math.max(toRow, getRow()); j++) {
-                                if (getChessBoard().hasPiece(j, getColumn())) {
+                        else if (getRow() == toRow) {
+                            for (int j = Math.min(toColumn, getColumn()) + 1; j < Math.max(toColumn, getColumn()); j++) {
+                                if (getChessBoard().hasPiece(getRow(), j)) {
                                     pieceCnt++;
                                 }
                             }

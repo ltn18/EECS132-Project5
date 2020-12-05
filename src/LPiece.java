@@ -11,19 +11,31 @@ public abstract class LPiece extends ChessPiece {
     }
 
     private boolean isLegalHorse(int toRow, int toColumn) {
-        System.out.println(getRow() + " " + getColumn());
-        System.out.println(toRow + " " + toColumn);
-        System.out.println("min: " + Math.min(getRow(), toRow) + " max: " + Math.max(getRow(), toRow));
-
         if (getChessBoard().getPiece(getRow(), getColumn()).getLabel().equals("H")) {
-            for (int i = Math.min(getRow(), toRow); i <= Math.max(getRow(), toRow); i++) {
-                for (int j = Math.min(getColumn(), toColumn); j <= Math.max(getColumn(), toColumn); j++) {
-                    if (getChessBoard().hasPiece(i, j)) {
+            if (Math.max(getRow(), toRow) - Math.min(getRow(), toRow) == 2) {
+                if (getRow() < toRow) {
+                    if (getChessBoard().hasPiece(getRow() + 1, getColumn())) {
+                        return false;
+                    }
+                }
+                else {
+                    if (getChessBoard().hasPiece(getRow() - 1, getColumn())) {
                         return false;
                     }
                 }
             }
-
+            else if (Math.max(getColumn(), toColumn) - Math.min(getColumn(), toColumn) == 2) {
+                if (getColumn() > toColumn) {
+                    if (getChessBoard().hasPiece(getRow(), getColumn() - 1)) {
+                        return false;
+                    }
+                }
+                else {
+                    if (getChessBoard().hasPiece(getRow(), getColumn() + 1)) {
+                        return false;
+                    }
+                }
+            }
         }
 
         return true;

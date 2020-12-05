@@ -77,6 +77,16 @@ public abstract class SPiece extends ChessPiece {
         ChessGame.Side side = piece.getSide();
 
         if (piece.getLabel().equals("S")) {
+            if (side == ChessGame.Side.NORTH) {
+                if (toRow < getRow()) {
+                    return false;
+                }
+            }
+            else if (side == ChessGame.Side.SOUTH) {
+                if (toRow > getRow()) {
+                    return false;
+                }
+            }
             if (!piece.getSoldierPassBound()) {
                 if (Math.abs(getRow() - toRow) != 1 && Math.abs(getColumn() - toColumn) != 0) {
                     return false;

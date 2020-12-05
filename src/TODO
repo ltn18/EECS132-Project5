@@ -1,3 +1,10 @@
+CONFIGURATIONS:
+ - add VM option in Edit Configurations in Run:
+   --module-path C:\Users\admin\Desktop\javafx\javafx-sdk-11.0.2\lib
+   --add-modules javafx.controls,javafx.fxml
+   --add-exports javafx.graphics/com.sun.javafx.sg.prism=ALL-UNNAMED
+
+
 TODO:
  - JavaFXChessBoard: part b+d+e, setBoardDisplay
  - JavaFXEuropeanChessDisplay:
@@ -10,7 +17,9 @@ TODO:
  - facing king (DONE)
  - legalSoldier logic (DONE)
  - CannonPiece logic (DONE)
- - Xianqi StartGame: check logic and bounds
+ - Xianqi GameMain: check logic and bounds (DONE)
+ - Add the squares to the board, set the color of the squares
+ - create JavaFX constructor
 
 PIECES:
  - SOLDIER fix going through boundary (DONE) because the river is not visible
@@ -23,3 +32,9 @@ PIECES:
     + cross river (DONE)
     + block (DONE)
  - facing KING
+
+COMMENTS:
+ - check comments
+
+TESTING:
+

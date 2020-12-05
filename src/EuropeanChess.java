@@ -34,7 +34,7 @@ public class EuropeanChess implements ChessGame {
 
     @Override
     public void startGame(ChessBoard board) {
-        StartGame.initEuropeanChess();
+        GameMain.initEuropeanChess(Side.SOUTH);
     }
 
     // update the next player
