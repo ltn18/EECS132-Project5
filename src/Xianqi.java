@@ -108,33 +108,57 @@ public class Xianqi implements ChessGame {
         return false;
     }
 
+    /**
+     * get the first player's side
+     * @return the first player's side
+     */
     @Override
     public Side getFirstPlayer() {
         return firstPlayer;
     }
 
+    /**
+     * get the number of rows
+     * @return the number of rows
+     */
     @Override
     public int getNumRows() {
         return 10;
     }
 
+    /**
+     * get the number of columns
+     * @return the number of columns
+     */
     @Override
     public int getNumColumns() {
         return 9;
     }
 
-    // update the next player
+    /**
+     * update the next player
+     * @param currentSide the current player
+     */
     public void setCurrentSide(Side currentSide) {
         this.currentSide = currentSide;
     }
 
-    // create a south->north game
+    /**
+     * create a south->north game
+     * @param board the chess board
+     */
     @Override
     public void startGame(ChessBoard board) {
         GameMain.initXianqi(Side.SOUTH);
     }
 
-    // return whether selection of a piece can be changed or not
+    /**
+     * determine whether selection of a piece can be changed or not
+     * @param piece   the piece the user selected
+     * @param row     the row of the square the piece is on
+     * @param column  the column of the square the piece is on
+     * @return whether selection of a piece can be changed or not
+     */
     public boolean canChangeSelection(ChessPiece piece, int row, int column) {
         return true;
     }
