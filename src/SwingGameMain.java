@@ -1,6 +1,6 @@
 /**
  * @author: Lam Nguyen
- * a class representing european chess board and xianqi board
+ * a class representing swing european chess board and xianqi board
  */
 public class SwingGameMain {
 

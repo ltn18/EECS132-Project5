@@ -124,10 +124,18 @@ public class JavaFXChessBoard extends Application implements ChessBoard {
         return pieces[row][col];
     }
 
+    /**
+     * set the display of the board
+     * @param boardDisplay the type of display
+     */
     public void setBoardDisplay(JavaFXChessBoardDisplay boardDisplay) {
         this.boardDisplay = boardDisplay;
     }
 
+    /**
+     *
+     * @param board the type of board
+     */
     public void setBoard(Scene board) {
         this.board = board;
     }
@@ -163,7 +171,6 @@ public class JavaFXChessBoard extends Application implements ChessBoard {
          * @param col the column the piece will move to
          */
         private void processSecondSelection(int row, int col) {
-            System.out.println("CALLED");
             if (row == pieceRow && col == pieceCol)
                 return;
 
@@ -184,7 +191,11 @@ public class JavaFXChessBoard extends Application implements ChessBoard {
          */
         @Override
         public void handle(ActionEvent e) {
+//            System.out.println("HANDLE IS CALLED");
+
+            // get the button
             Button b = (Button) e.getSource();
+
             int col = -1;
             int row = -1;
 
@@ -197,6 +208,8 @@ public class JavaFXChessBoard extends Application implements ChessBoard {
                     }
                 }
             }
+
+            System.out.println(firstPick);
 
             if (firstPick) {
                 processFirstSelection(row, col);
@@ -225,14 +238,16 @@ public class JavaFXChessBoard extends Application implements ChessBoard {
         return false;
     }
 
-    private Button[][] init(int row, int col, String input) {
+    private Button[][] init(int row, int col) {
         Button[][] buttons = new Button[row][col];
         pieces = new ChessPiece[row][col];
+
+        ChessAction action = new ChessAction();
 
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < col; j++) {
                 buttons[i][j] = new Button();
-                buttons[i][j].setOnAction(new ChessAction());
+                buttons[i][j].setOnAction(action);
                 buttons[i][j].setPrefSize(60, 60);
             }
         }
@@ -261,10 +276,17 @@ public class JavaFXChessBoard extends Application implements ChessBoard {
             squaresCol = 9;
         }
 
-        squares = init(squaresRow, squaresCol, input);
+        squares = init(squaresRow, squaresCol);
+
         if (input.toUpperCase().equals("CHESS")) {
             setGameRules(new EuropeanChess(ChessGame.Side.SOUTH));
             setBoardDisplay(new JavaFXEuropeanChessDisplay());
+
+            for (int i = 0; i < squaresRow; i++) {
+                for (int j = 0; j < squaresCol; j++) {
+                    boardDisplay.displayEmptySquare(squares[i][j], squaresRow, squaresCol);
+                }
+            }
 
             // add PawnPiece
             for (int i = 0; i < 8; ++i) {
@@ -301,6 +323,12 @@ public class JavaFXChessBoard extends Application implements ChessBoard {
         else if (input.toUpperCase().equals("XIANQI")) {
             setGameRules(new Xianqi(ChessGame.Side.SOUTH));
             setBoardDisplay(new JavaFXXianqiDisplay());
+
+            for (int i = 0; i < squaresRow; i++) {
+                for (int j = 0; j < squaresCol; j++) {
+                    boardDisplay.displayEmptySquare(squares[i][j], squaresRow, squaresCol);
+                }
+            }
 
             // add SoldierPiece
             for (int i = 0; i < 9; ++i) {

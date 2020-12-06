@@ -77,7 +77,6 @@ public class Xianqi implements ChessGame {
      */
     @Override
     public boolean makeMove(ChessPiece piece, int toRow, int toColumn) {
-        System.out.println("OKOK");
         if (piece.isLegalMove(toRow, toColumn)) {
             System.out.println("prev: " + piece.getRow() + " " + piece.getColumn() + " " + piece.getLabel());
 
