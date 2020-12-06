@@ -52,7 +52,7 @@ public class EuropeanChess implements ChessGame {
      */
     @Override
     public void startGame(ChessBoard board) {
-        GameMain.initEuropeanChess(Side.SOUTH);
+        SwingGameMain.initEuropeanChess(Side.SOUTH);
     }
 
     /**

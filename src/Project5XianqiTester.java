@@ -24,17 +24,17 @@ public class Project5XianqiTester {
     // initialize the complete chess board south->north
     public SwingChessBoard init(String input) {
         if (input.toUpperCase().equals("CHESS")) {
-            return GameMain.initEuropeanChess(south);
+            return SwingGameMain.initEuropeanChess(south);
         }
         else if (input.toUpperCase().equals("XIANQI")) {
-            return GameMain.initXianqi(south);
+            return SwingGameMain.initXianqi(south);
         }
         return null;
     }
 
     // initialize the complete chess board with chosen first player
     public SwingChessBoard init(String input, ChessGame.Side first) {
-        return GameMain.init(input, first);
+        return SwingGameMain.init(input, first);
     }
 
     /** TEST SIDE */

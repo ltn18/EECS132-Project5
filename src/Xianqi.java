@@ -29,8 +29,8 @@ public class Xianqi implements ChessGame {
      */
     @Override
     public boolean legalPieceToPlay(ChessPiece piece, int row, int column) {
-//        return true;
-        return piece.getChessBoard().hasPiece(row, column) && piece.getSide() == currentSide;
+        return true;
+//        return piece.getChessBoard().hasPiece(row, column) && piece.getSide() == currentSide;
     }
 
     /**
@@ -77,6 +77,7 @@ public class Xianqi implements ChessGame {
      */
     @Override
     public boolean makeMove(ChessPiece piece, int toRow, int toColumn) {
+        System.out.println("OKOK");
         if (piece.isLegalMove(toRow, toColumn)) {
             System.out.println("prev: " + piece.getRow() + " " + piece.getColumn() + " " + piece.getLabel());
 
@@ -143,7 +144,7 @@ public class Xianqi implements ChessGame {
      */
     @Override
     public void startGame(ChessBoard board) {
-        GameMain.initXianqi(Side.SOUTH);
+        SwingGameMain.initXianqi(Side.SOUTH);
     }
 
     /**
@@ -158,18 +159,32 @@ public class Xianqi implements ChessGame {
     }
 
 
+    /**
+     * Main method for testing facing king
+     * @param args
+     */
     public static void main(String[] args) {
+
+        // first player
         ChessGame.Side first = Side.SOUTH;
+
+        // second player
         ChessGame.Side second = Side.NORTH;
+
+        // initialize xianqi game
         Xianqi xianqi = new Xianqi(first);
+
+        // create a display
         SwingEuropeanChessDisplay swingEuropeanChessDisplay = new SwingEuropeanChessDisplay();
+
+        // create the xianqi board
         SwingChessBoard swingChessBoard = new SwingChessBoard(10, 9, swingEuropeanChessDisplay, xianqi);
 
         // add KingPiece
         swingChessBoard.addPiece(new XianqiKingPiece(second, swingChessBoard), 0, 4);
         swingChessBoard.addPiece(new XianqiKingPiece(first, swingChessBoard), 9, 4);
 
-        // add a piece
+        // add HorsePiece
         swingChessBoard.addPiece(new HorsePiece(first, swingChessBoard),5, 4);
         swingChessBoard.addPiece(new HorsePiece(first, swingChessBoard),6, 4);
 

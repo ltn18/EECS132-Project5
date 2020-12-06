@@ -15,19 +15,25 @@ public class JavaFXEuropeanChessDisplay implements JavaFXChessBoardDisplay {
     public static Color blackColor = Color.black;
 
     /* The color of the SOUTH player */
-    public static Color southPlayerColor = Color.yellow;
+    public final static String southPlayerColor = "-fx-background-color: #ffff00";
 
     /* The color of the NORTH player */
-    public static Color northPlayerColor = Color.green;
+    public final static String northPlayerColor = "-fx-background-color: #00ff00";
 
     /* The color of the EAST player */
-    public static Color eastPlayerColor = Color.white;
+    public final static String eastPlayerColor = "-fx-background-color: #ffffff";
 
     /* The color of the WEST player */
-    public static Color westPlayerColor = Color.gray;
+    public final static String westPlayerColor = "-fx-background-color: #808080";
+
+    /* The color used for the special indices */
+    public final static String darkGrayColor = "-fx-background-color: #696969";
+
+    /* The color used for the special indices */
+    public final static String lightGrayColor = "-fx-background-color: #C0C0C0";
 
     /** The color used to highlight a square */
-    public static Color highlightColor = Color.blue;
+    public final static String highlightColor = "-fx-background-color: #0000ff";
 
     /**
      * Display a square that has no piece on it.  Will produce a red/black checkerboard.
@@ -36,9 +42,7 @@ public class JavaFXEuropeanChessDisplay implements JavaFXChessBoardDisplay {
      * @param column the column of this square on the board
      */
     public void displayEmptySquare(Button button, int row, int column) {
-        String color = (row + column) % 2 == 0 ? "#000000" : "#ff0000";
-        String style = "-fx-background-color: " + color + ";";
-        button.setStyle(style);
+        button.setStyle(lightGrayColor);
         button.setText(null);
         button.setGraphic(null);
     }
@@ -51,7 +55,7 @@ public class JavaFXEuropeanChessDisplay implements JavaFXChessBoardDisplay {
      * @param piece  the piece that is on this square
      */
     public void displayFilledSquare(Button button, int row, int column, ChessPiece piece) {
-        Color pieceColor;
+        String pieceColor;
 
         switch (piece.getSide()) {
             case NORTH:   pieceColor = northPlayerColor;
@@ -63,8 +67,7 @@ public class JavaFXEuropeanChessDisplay implements JavaFXChessBoardDisplay {
             default:      pieceColor = westPlayerColor;
         }
 
-        String style = "-fx-background-color: " + pieceColor + ";";
-        button.setStyle(style);
+        button.setStyle(pieceColor);
         button.setText(piece.getLabel());
         button.setGraphic(null);
     }
@@ -79,8 +82,7 @@ public class JavaFXEuropeanChessDisplay implements JavaFXChessBoardDisplay {
      */
     public void highlightSquare(boolean highlight, Button button, int row, int column, ChessPiece piece) {
         if (highlight) {
-            String style = "-fx-background-color: " + highlightColor + ";";
-            button.setStyle(style);
+            button.setStyle(highlightColor);
         }
         else if (piece == null)
             displayEmptySquare(button, row, column);

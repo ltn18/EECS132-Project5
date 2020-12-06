@@ -2,7 +2,7 @@
  * @author: Lam Nguyen
  * a class representing european chess board and xianqi board
  */
-public class GameMain {
+public class SwingGameMain {
 
     /**
      * initialize the complete european board with south-north direction
@@ -113,10 +113,10 @@ public class GameMain {
      */
     public static SwingChessBoard init(String input, ChessGame.Side first) {
         if (input.toUpperCase().equals("CHESS")) {
-            return GameMain.initEuropeanChess(first);
+            return SwingGameMain.initEuropeanChess(first);
         }
         else if (input.toUpperCase().equals("XIANQI")) {
-            return GameMain.initXianqi(first);
+            return SwingGameMain.initXianqi(first);
         }
         return null;
     }

@@ -5,8 +5,8 @@ CONFIGURATIONS:
    --add-exports javafx.graphics/com.sun.javafx.sg.prism=ALL-UNNAMED
 
 TODO PII:
- - javafx
- - facing king
+ - javafx: how to make pieces move?
+ - facing king (DONE)
 
 PIECES:
  - SOLDIER fix going through boundary (DONE) because the river is not visible
@@ -25,7 +25,7 @@ COMMENTS:
 
 TESTING:
  - javafx
- - facing king
+ - facing king (DONE)
 
 TODO PI:
  - JavaFXChessBoard: part b+d+e, setBoardDisplay
@@ -39,7 +39,7 @@ TODO PI:
  - facing king (DONE)
  - legalSoldier logic (DONE)
  - CannonPiece logic (DONE)
- - Xianqi GameMain: check logic and bounds (DONE)
+ - Xianqi SwingGameMain: check logic and bounds (DONE)
  - Add the squares to the board, set the color of the squares
  - create JavaFX constructor
 

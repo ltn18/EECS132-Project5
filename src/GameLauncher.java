@@ -16,10 +16,10 @@ public class GameLauncher {
 
         // initialize the game according to the input
         if (input.toUpperCase().equals("CHESS")) {
-            GameMain.initEuropeanChess(ChessGame.Side.SOUTH);
+            SwingGameMain.initEuropeanChess(ChessGame.Side.SOUTH);
         }
         else if (input.toUpperCase().equals("XIANQI")) {
-            GameMain.initXianqi(ChessGame.Side.SOUTH);
+            SwingGameMain.initXianqi(ChessGame.Side.SOUTH);
         }
     }
 }
