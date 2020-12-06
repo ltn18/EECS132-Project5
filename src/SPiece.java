@@ -25,27 +25,8 @@ public abstract class SPiece extends ChessPiece {
      * @return whether the king is moved properly
      */
     private boolean legalKing(ChessPiece piece, int toRow, int toColumn) {
-
-        // Xianqi North South Game
-        if (piece.getLabel().equals("X")) {
-            if (Math.abs(toRow - getRow()) > 1 || Math.abs(toColumn - getColumn()) > 1) {
-                return false;
-            } else {
-                if (toColumn < 3 || toColumn > 5) {
-                    return false;
-                } else {
-                    if (piece.getSide() == ChessGame.Side.NORTH) {
-                        return toRow <= 2;
-                    }
-                    else if (piece.getSide() == ChessGame.Side.SOUTH) {
-                        return toRow >= 7;
-                    }
-                }
-            }
-        }
-
         // European North South Game
-        else if (piece.getLabel().equals("K")) {
+        if (piece.getLabel().equals("K")) {
             // check if the movement of the king exceeds 1 step
             if (Math.max(toRow, getRow()) > Math.min(toRow, getRow()) + 1 || Math.max(toColumn, getColumn()) > Math.min(toColumn, getColumn()) + 1) {
                 if (legalCastle(toColumn)) {
@@ -83,6 +64,39 @@ public abstract class SPiece extends ChessPiece {
     }
 
     /**
+     * check whether the king is moved properly
+     * @param piece the piece to be considered
+     * @param toRow destination row
+     * @param toColumn destination column
+     * @return whether the king is moved properly
+     */
+    private boolean legalXianqiKing(ChessPiece piece, int toRow, int toColumn) {
+        // Xianqi North South Game
+        if (piece.getLabel().equals("X")) {
+
+            // check if out of palace
+            if (toColumn < 3 || toColumn > 5) {
+                return false;
+            }
+
+            if (piece.getSide() == ChessGame.Side.NORTH && toRow > 2) {
+                return false;
+            }
+
+            if (piece.getSide() == ChessGame.Side.SOUTH && toRow < 7) {
+                return false;
+            }
+
+            // check if the movement of the xianqi king exceeds 1 step
+            if (Math.max(toRow, getRow()) > Math.min(toRow, getRow()) + 1 || Math.max(toColumn, getColumn()) > Math.min(toColumn, getColumn()) + 1) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * check whether the xianqi soldier is moved properly
      * @param piece the piece to be considered
      * @param toRow destination row
@@ -94,6 +108,9 @@ public abstract class SPiece extends ChessPiece {
         ChessGame.Side side = piece.getSide();
 
         if (piece.getLabel().equals("S")) {
+            if (Math.abs(getRow() - toRow) > 1 || Math.abs(getColumn() - toColumn) > 1) {
+                return false;
+            }
             if (side == ChessGame.Side.NORTH) {
                 if (toRow < getRow()) {
                     return false;
@@ -106,11 +123,6 @@ public abstract class SPiece extends ChessPiece {
             }
             if (!piece.getSoldierPassBound()) {
                 if (Math.abs(getRow() - toRow) != 1 && Math.abs(getColumn() - toColumn) != 0) {
-                    return false;
-                }
-            }
-            else {
-                if (Math.abs(getRow() - toRow) > 1 || Math.abs(getColumn() - toColumn) > 1) {
                     return false;
                 }
             }
@@ -237,6 +249,7 @@ public abstract class SPiece extends ChessPiece {
         }
 
         return legalSoldier(this, toRow, toColumn)
+                && legalXianqiKing(this, toRow, toColumn)
                 && legalPawn(this, toRow, toColumn)
                 && legalKing(this, toRow, toColumn)
                 && (legalDiagonalPath(toRow, toColumn)

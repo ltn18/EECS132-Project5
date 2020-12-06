@@ -209,8 +209,6 @@ public class JavaFXChessBoard extends Application implements ChessBoard {
                 }
             }
 
-            System.out.println(firstPick);
-
             if (firstPick) {
                 processFirstSelection(row, col);
             }
@@ -261,12 +259,15 @@ public class JavaFXChessBoard extends Application implements ChessBoard {
      */
     @Override
     public void start(Stage stage) {
+        // command line processor
         Scanner scanner = new Scanner(System.in);
         String input = scanner.next();
 
+        // create north south game
         ChessGame.Side first = ChessGame.Side.SOUTH;
         ChessGame.Side second = ChessGame.Side.NORTH;
 
+        // initialize row and column
         if (input.toUpperCase().equals("CHESS")) {
             squaresRow = 8;
             squaresCol = 8;
@@ -276,12 +277,15 @@ public class JavaFXChessBoard extends Application implements ChessBoard {
             squaresCol = 9;
         }
 
+        // initialize square board
         squares = init(squaresRow, squaresCol);
 
+        // add pieces to the game
         if (input.toUpperCase().equals("CHESS")) {
             setGameRules(new EuropeanChess(ChessGame.Side.SOUTH));
             setBoardDisplay(new JavaFXEuropeanChessDisplay());
 
+            // display empty squares
             for (int i = 0; i < squaresRow; i++) {
                 for (int j = 0; j < squaresCol; j++) {
                     boardDisplay.displayEmptySquare(squares[i][j], squaresRow, squaresCol);
@@ -324,6 +328,7 @@ public class JavaFXChessBoard extends Application implements ChessBoard {
             setGameRules(new Xianqi(ChessGame.Side.SOUTH));
             setBoardDisplay(new JavaFXXianqiDisplay());
 
+            // display empty squares
             for (int i = 0; i < squaresRow; i++) {
                 for (int j = 0; j < squaresCol; j++) {
                     boardDisplay.displayEmptySquare(squares[i][j], squaresRow, squaresCol);
@@ -382,9 +387,14 @@ public class JavaFXChessBoard extends Application implements ChessBoard {
             }
         }
 
+        // create new scene
         Scene scene = new Scene(pane);
+
+        // set scene to board
         setBoard(scene);
         board.setRoot(pane);
+
+        // show the game
         stage.setScene(board);
         stage.show();
     }

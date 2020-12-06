@@ -39,27 +39,56 @@ public class Xianqi implements ChessGame {
      * @return
      */
     private static boolean facingKing(ChessPiece piece) {
-        ChessPiece northK = new XianqiKingPiece(Side.NORTH, piece.getChessBoard());
-        ChessPiece southK = new XianqiKingPiece(Side.SOUTH, piece.getChessBoard());
+
+        // initialize positions of north king
+        int northCol = -1;
+        int northRow = -1;
+
+        // initialize positions of south king
+        int southCol = -1;
+        int southRow = -1;
+
+        // get the board
         ChessBoard board = piece.getChessBoard();
 
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 9; j++) {
                 if (board.hasPiece(i, j) && board.getPiece(i, j).getLabel().equals("X")) {
                     ChessPiece king = board.getPiece(i, j);
+
                     if (king.getSide() == Side.NORTH) {
-                        northK = king;
+                        northCol = king.getColumn();
+                        northRow = king.getRow();
                     }
-                    else if (king.getSide() == Side.SOUTH) {
-                        southK = king;
+
+                    if (king.getSide() == Side.SOUTH) {
+                        southCol = king.getColumn();
+                        southRow = king.getRow();
                     }
                 }
             }
         }
 
-        if (southK.getColumn() == northK.getColumn()) {
-            for (int i = Math.min(southK.getRow(), northK.getRow()) + 1; i < Math.max(southK.getRow(), northK.getRow()); i++) {
-                if (piece.getChessBoard().hasPiece(i, northK.getColumn())) {
+        /**
+         * Since the logic happens after we removed a piece on the board,
+         * the board now has 1 king only. What we need to do is to add the
+         * positions of the king removed to the associated positions for later
+         * procedures to happen.
+         */
+        if (northCol == -1 && northRow == -1) {
+            northCol = piece.getColumn();
+            northRow = piece.getRow();
+        }
+
+        if (southCol== -1 && southRow == -1) {
+            southCol = piece.getColumn();
+            southRow = piece.getRow();
+        }
+
+        // check whether the kings are blocked by a piece
+        if (northCol == southCol) {
+            for (int i = Math.min(southRow, northRow) + 1; i < Math.max(southRow, northCol); i++) {
+                if (piece.getChessBoard().hasPiece(i, northCol)) {
                     return false;
                 }
             }
