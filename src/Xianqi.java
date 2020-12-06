@@ -113,10 +113,16 @@ public class Xianqi implements ChessGame {
             ChessPiece save = piece.getChessBoard().removePiece(piece.getRow(), piece.getColumn());
 
             // check after the piece has been removed and make move if legit
-            if (!facingKing(piece)) {
+            if (piece.getColumn() == toColumn) {
                 piece.getChessBoard().addPiece(save, toRow, toColumn);
-            } else {
-                piece.getChessBoard().addPiece(save, save.getRow(), save.getColumn());
+            }
+            else {
+                if (!facingKing(piece)) {
+                    piece.getChessBoard().addPiece(save, toRow, toColumn);
+                }
+                else {
+                    piece.getChessBoard().addPiece(save, piece.getRow(), piece.getColumn());
+                }
             }
 
             System.out.println("curr: " + piece.getRow() + " " + piece.getColumn() + " " + piece.getLabel());

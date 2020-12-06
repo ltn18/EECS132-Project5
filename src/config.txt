@@ -1,0 +1,4 @@
+add VM option in Run | Edit Configurations:
+   --module-path /path/to/javafx/sdk/lib
+   --add-modules javafx.controls,javafx.fxml
+   --add-exports javafx.graphics/com.sun.javafx.sg.prism=ALL-UNNAMED
