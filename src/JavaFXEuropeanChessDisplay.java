@@ -1,3 +1,7 @@
+/**
+ * @author: Lam Nguyen
+ * a class representing javafx european chess display
+ */
 import javafx.scene.control.Button;
 
 import java.awt.*;

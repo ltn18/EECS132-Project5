@@ -11,43 +11,76 @@ public class EuropeanChess implements ChessGame {
     // the first player that will be playing
     public Side firstPlayer;
 
-    // EuropeanChess constructor that takes in side of first player
+    /**
+     * EuropeanChess constructor that takes in side of first player
+     * @param currentSide the side of the current player
+     */
     public EuropeanChess(Side currentSide) {
         this.currentSide = currentSide;
         this.firstPlayer = currentSide;
     }
 
-    // get the first/next player
+    /**
+     * get the first/next player
+     * @return the first/next player
+     */
     public Side getFirstPlayer() {
         return firstPlayer;
     }
 
+    /**
+     * get the number of rows
+     * @return the number of rows
+     */
     @Override
     public int getNumRows() {
         return 8;
     }
 
+    /**
+     * get the number of columns
+     * @return the number of columns
+     */
     @Override
     public int getNumColumns() {
         return 8;
     }
 
+    /**
+     * initialize the game
+     * @param board the chess board
+     */
     @Override
     public void startGame(ChessBoard board) {
         GameMain.initEuropeanChess(Side.SOUTH);
     }
 
-    // update the next player
+    /**
+     * update the next player
+     * @param currentSide the current player's side
+     */
     public void setCurrentSide(Side currentSide) {
         this.currentSide = currentSide;
     }
 
-    // return whether a selected piece can be played or not
+    /**
+     * determine whether a selected piece can be played or not
+     * @param piece   the piece to be played
+     * @param row     the row of the square the piece is on
+     * @param column  the column of the square the piece is on
+     * @return whether a selected piece can be played or not
+     */
     public boolean legalPieceToPlay(ChessPiece piece, int row, int column) {
         return piece.getChessBoard().hasPiece(row, column) && piece.getSide() == currentSide;
     }
 
-    // return whether a move can be made by a piece or not
+    /**
+     * determine whether a move can be made by a piece or not
+     * @param piece     the piece to move
+     * @param toRow     the row of the square the piece is moving to
+     * @param toColumn  the column of the square the piece is moving to
+     * @return whether a move can be made by a piece or not
+     */
     public boolean makeMove(ChessPiece piece, int toRow, int toColumn) {
         if (piece.isLegalMove(toRow, toColumn)) {
             System.out.println("prev: " + piece.getRow() + " " + piece.getColumn() + " " + piece.getLabel());
@@ -81,7 +114,13 @@ public class EuropeanChess implements ChessGame {
         return false;
     }
 
-    // return whether the castle is threatened or not
+    /**
+     * determine whether the castle is threatened or not
+     * @param piece the piece to be considered
+     * @param toRow destination row
+     * @param toColumn destination column
+     * @return whether the castle is threatened or not
+     */
     public boolean castleThreatened(ChessPiece piece, int toRow, int toColumn) {
         // specific case of Bishop attacking castle move containing location (7, 6)
         if (piece.getChessBoard().hasPiece(3,2)
@@ -93,7 +132,13 @@ public class EuropeanChess implements ChessGame {
         return false;
     }
 
-    // return whether selection of a piece can be changed or not
+    /**
+     * determine whether selection of a piece can be changed or not
+     * @param piece   the piece the user selected
+     * @param row     the row of the square the piece is on
+     * @param column  the column of the square the piece is on
+     * @return whether selection of a piece can be changed or not
+     */
     public boolean canChangeSelection(ChessPiece piece, int row, int column) {
         return true;
     }

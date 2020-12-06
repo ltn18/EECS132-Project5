@@ -42,93 +42,165 @@ public abstract class ChessPiece {
         this.board = board;
     }
 
-    // return the player's side associated with the piece
+    /**
+     * get the player's side associated with the piece
+     * @return the player's side associated with the piece
+     */
     public ChessGame.Side getSide() {
         return side;
     }
 
-    // return the label associated with the piece
+    /**
+     * get the label associated with the piece
+     * @return the label associated with the piece
+     */
     public String getLabel() {
         return label;
     }
 
-    // return the icon associated with the piece
+    /**
+     * get the icon associated with the piece
+     * @return the icon associated with the piece
+     */
     public Object getIcon() {
         return icon;
     }
 
-    // update the location of the piece to a new one
+    /**
+     * update the location of the piece to a new one
+     * @param row row to be set to
+     * @param column column to be set to
+     */
     public void setLocation(int row, int column) {
         this.row = row;
         this.column = column;
     }
 
-    // abstract method checking if the piece's move can be done or not
+    /**
+     * abstract method checking if the piece's move can be done or not
+     * @param toRow destination row
+     * @param toColumn destination column
+     * @return a boolean value
+     */
     public abstract boolean isLegalMove(int toRow, int toColumn);
 
-    // return the game board associated with the piece
+    /**
+     * get the game board associated with the piece
+     * @return the game board associated with the piece
+     */
     public ChessBoard getChessBoard() {
         return board;
     }
 
-    // return the row associated with the piece
+    /**
+     * get the row associated with the piece
+     * @return the row associated with the piece
+     */
     public int getRow() {
         return row;
     }
 
-    // return the column associated with the piece
+    /**
+     * get the column associated with the piece
+     * @return the column associated with the piece
+     */
     public int getColumn() {
         return column;
     }
 
-    // return whether it is a legal non-capture move
+    // return
+
+    /**
+     * determine whether it is a legal non-capture move
+     * @param row destination row
+     * @param column destination column
+     * @return whether it is a legal non-capture move
+     */
     public boolean isLegalNonCaptureMove(int row, int column) {
         return isLegalMove(row, column) && !getChessBoard().hasPiece(row, column);
     }
 
-    // return whether it is a legal capture move
+    /**
+     * determine whether it is a legal capture move
+     * @param row destination row
+     * @param column destination column
+     * @return whether it is a legal capture move
+     */
     public boolean isLegalCaptureMove(int row, int column) {
         return getChessBoard().hasPiece(row, column)
                 && isLegalMove(row, column)
                 &&  getChessBoard().getPiece(row, column).getSide() != this.getSide();
     }
 
-    // deal with actions after the move is done
+    /**
+     * deal with actions after the move is done
+     */
     public abstract void moveDone();
 
-    // return the boolean pawnFirstMove associated with the piece
+    /**
+     * get the boolean pawnFirstMove associated with the piece
+     * @return the boolean pawnFirstMove associated with the piece
+     */
     public boolean getPawnFirstMove() {
         return pawnFirstMove;
     }
 
-    // update the boolean pawnFirstMove associated with the piece
+    /**
+     * update the boolean pawnFirstMove associated with the piece
+     * @param pawnFirstMove the pawn's first move
+     */
     public void setPawnFirstMove(boolean pawnFirstMove) {
         this.pawnFirstMove = pawnFirstMove;
     }
 
-    // return the boolean kingFirstMove associated with the piece
+    /**
+     * get the boolean kingFirstMove associated with the piece
+     * @return the boolean kingFirstMove associated with the piece
+     */
     public boolean getKingFirstMove() {
         return kingFirstMove;
     }
 
-    // update the boolean pawnFirstMove associated with the piece
+    /**
+     * update the boolean pawnFirstMove associated with the piece
+     * @param kingFirstMove the king's first move
+     */
     public void setKingFirstMove(boolean kingFirstMove) {
         this.kingFirstMove = kingFirstMove;
     }
 
-    // return the boolean rookFirstMove associated with the piece
+    /**
+     * get the boolean rookFirstMove associated with the piece
+     * @return the boolean rookFirstMove associated with the piece
+     */
     public boolean getRookFirstMove() {
         return rookFirstMove;
     }
 
-    // update the boolean rookFirstMove associated with the piece
+    /**
+     * update the boolean rookFirstMove associated with the piece
+     * @param rookFirstMove the rook's first move
+     */
     public void setRookFirstMove(boolean rookFirstMove) {
         this.rookFirstMove = rookFirstMove;
     }
 
-    // check if the piece made a legal diagonal path or not
+    /**
+     * check if the piece made a legal diagonal path or not
+     * @param toRow destination row
+     * @param toColumn destination column
+     * @return whether a legal diagonal path
+     */
     public boolean legalDiagonalPath(int toRow, int toColumn) {
+        if (getLabel().equals("C")) {
+            return false;
+        }
 
+        if (getLabel().equals("R")) {
+            return false;
+        }
+
+        // handle guard out of palace
         if (getLabel().equals("G")) {
             if (Math.abs(getRow() - toRow) == 1 && Math.abs((getColumn() - toColumn)) == 1) {
                 if (toColumn < 3 || toColumn > 5) {
@@ -147,26 +219,17 @@ public abstract class ChessPiece {
             }
         }
 
+        // handle elephant crossing river
         if (getLabel().equals("E")) {
             if (Math.abs(getRow() - toRow) == 2 && Math.abs((getColumn() - toColumn)) == 2) {
                 ChessGame.Side side = getChessBoard().getPiece(getRow(), getColumn()).getSide();
-                if (side == ChessGame.Side.NORTH) {
-                    return toColumn >= 4;
-                }
-                else if (side == ChessGame.Side.SOUTH) {
-                    return toColumn <= 5;
+                if ((side == ChessGame.Side.NORTH && toRow > 4)
+                        || (side == ChessGame.Side.SOUTH && toRow < 5)) {
+                    return false;
                 }
             } else {
                 return false;
             }
-        }
-
-        if (getLabel().equals("C")) {
-            return false;
-        }
-
-        if (getLabel().equals("R")) {
-            return false;
         }
 
         // the condition for a path to be diagonal
@@ -194,7 +257,12 @@ public abstract class ChessPiece {
         return true;
     }
 
-    // check if the piece made a legal horizontal path or not
+    /**
+     * check if the piece made a legal horizontal path or not
+     * @param toRow destination row
+     * @param toColumn destination column
+     * @return whether a legal horizontal path
+     */
     public boolean legalHorizontalPath(int toRow, int toColumn) {
         if (getLabel().equals("G")) {
             return false;
@@ -229,7 +297,10 @@ public abstract class ChessPiece {
                         return false;
                     }
                     else {
+                        // total piece in the path
                         int pieceCnt = 0;
+
+                        // iterate all squares in the path
                         if (getRow() == toRow) {
                             for (int j = Math.min(toColumn, getColumn()) + 1; j < Math.max(toColumn, getColumn()); j++) {
                                 if (getChessBoard().hasPiece(getRow(), j)) {
@@ -247,6 +318,7 @@ public abstract class ChessPiece {
 
                         System.out.println(pieceCnt);
 
+                        // determine legal capture move
                         if (pieceCnt == 1) {
                             return true;
                         } else {
@@ -255,7 +327,12 @@ public abstract class ChessPiece {
                     }
                 }
                 else {
-                    return false;
+                    // check if there is any piece in the path
+                    for (int i = Math.min(toColumn, getColumn()) + 1; i < Math.max(toColumn, getColumn()); ++i) {
+                        if (getChessBoard().hasPiece(getRow(), i)) {
+                            return false;
+                        }
+                    }
                 }
             }
         } else {
@@ -265,7 +342,12 @@ public abstract class ChessPiece {
         return true;
     }
 
-    // check if the piece made a legal vertical path or not
+    /**
+     * check if the piece made a legal vertical path or not
+     * @param toRow destination row
+     * @param toColumn destination column
+     * @return whether a legal diagonal path
+     */
     public boolean legalVerticalPath(int toRow, int toColumn) {
         if (getLabel().equals("G")) {
             return false;
@@ -307,7 +389,10 @@ public abstract class ChessPiece {
                         return false;
                     }
                     else {
+                        // total piece in the path
                         int pieceCnt = 0;
+
+                        // iterate all squares in the path
                         if (getColumn() == toColumn) {
                             for (int j = Math.min(toRow, getRow()) + 1; j < Math.max(toRow, getRow()); j++) {
                                 if (getChessBoard().hasPiece(j, getColumn())) {
@@ -325,6 +410,7 @@ public abstract class ChessPiece {
 
                         System.out.println(pieceCnt);
 
+                        // determine legal capture move
                         if (pieceCnt == 1) {
                             return true;
                         } else {
@@ -333,10 +419,14 @@ public abstract class ChessPiece {
                     }
                 }
                 else {
-                    return false;
+                    // check if there is any piece in the path
+                    for (int i = Math.min(toRow, getRow()) + 1; i < Math.max(toRow, getRow()); ++i) {
+                        if (getChessBoard().hasPiece(i, getColumn())) {
+                            return false;
+                        }
+                    }
                 }
             }
-
         } else {
             return false;
         }
@@ -344,10 +434,18 @@ public abstract class ChessPiece {
         return true;
     }
 
+    /**
+     * determine whether the soldier has passed the boundary
+     * @return whether the soldier has passed the boundary
+     */
     public boolean getSoldierPassBound() {
         return soldierPassBound;
     }
 
+    /**
+     * update whether the soldier has passed the boundary
+     * @param soldierPassBound boolean storing whether the soldier has passed the boundary
+     */
     public void setSoldierPassBound(boolean soldierPassBound) {
         this.soldierPassBound = soldierPassBound;
     }

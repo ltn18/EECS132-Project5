@@ -1,3 +1,7 @@
+/**
+ * @author: Lam Nguyen
+ * a class representing javafx chess board
+ */
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;

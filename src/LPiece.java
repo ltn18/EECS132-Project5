@@ -5,11 +5,22 @@
 
 public abstract class LPiece extends ChessPiece {
 
-    // LPiece constructor that takes in label, side, and board associated with the piece
+    /**
+     * LPiece constructor that takes in label, side, and board associated with the piece
+     * @param label the label for the piece
+     * @param side the side of the piece
+     * @param board piece's associated board
+     */
     public LPiece(String label, ChessGame.Side side, ChessBoard board) {
         super(label, side, board);
     }
 
+    /**
+     * determine whether the horse's move is legal
+     * @param toRow destination row
+     * @param toColumn destination column
+     * @return whether the horse's move is legal
+     */
     private boolean isLegalHorse(int toRow, int toColumn) {
         if (getChessBoard().getPiece(getRow(), getColumn()).getLabel().equals("H")) {
             if (Math.max(getRow(), toRow) - Math.min(getRow(), toRow) == 2) {
@@ -41,7 +52,12 @@ public abstract class LPiece extends ChessPiece {
         return true;
     }
 
-    // check whether the knight piece has made a legal move
+    /**
+     * check whether the knight piece has made a legal move
+     * @param toRow destination row
+     * @param toColumn destination column
+     * @return whether the knight piece has made a legal move
+     */
     public boolean isLegalMove(int toRow, int toColumn) {
         System.out.println("L-type");
 
@@ -75,6 +91,8 @@ public abstract class LPiece extends ChessPiece {
         return false;
     }
 
-    // deal with actions after the move is done
+    /**
+     * deal with actions after the move is done
+     */
     public void moveDone() {}
 }

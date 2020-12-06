@@ -4,22 +4,9 @@ CONFIGURATIONS:
    --add-modules javafx.controls,javafx.fxml
    --add-exports javafx.graphics/com.sun.javafx.sg.prism=ALL-UNNAMED
 
-
-TODO:
- - JavaFXChessBoard: part b+d+e, setBoardDisplay
- - JavaFXEuropeanChessDisplay:
-     + utilize setBackground
-     + setGraphic in displayFilledSquare (has to be sth != null)
-     + For the pieces, you would add a second BackgroundFill to the background
-        but this time use the color for the piece's side,
-        and set the CorderRadii and Insets so that the piece is rounded
-        and allows the background color behind it to be visible.
- - facing king (DONE)
- - legalSoldier logic (DONE)
- - CannonPiece logic (DONE)
- - Xianqi GameMain: check logic and bounds (DONE)
- - Add the squares to the board, set the color of the squares
- - create JavaFX constructor
+TODO PII:
+ - javafx
+ - facing king
 
 PIECES:
  - SOLDIER fix going through boundary (DONE) because the river is not visible
@@ -37,4 +24,22 @@ COMMENTS:
  - check comments
 
 TESTING:
+ - javafx
+ - facing king
+
+TODO PI:
+ - JavaFXChessBoard: part b+d+e, setBoardDisplay
+ - JavaFXEuropeanChessDisplay:
+     + utilize setBackground
+     + setGraphic in displayFilledSquare (has to be sth != null)
+     + For the pieces, you would add a second BackgroundFill to the background
+        but this time use the color for the piece's side,
+        and set the CorderRadii and Insets so that the piece is rounded
+        and allows the background color behind it to be visible.
+ - facing king (DONE)
+ - legalSoldier logic (DONE)
+ - CannonPiece logic (DONE)
+ - Xianqi GameMain: check logic and bounds (DONE)
+ - Add the squares to the board, set the color of the squares
+ - create JavaFX constructor
 

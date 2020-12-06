@@ -1,3 +1,7 @@
+/**
+ * @author: Lam Nguyen
+ * an interface representing javafx chess board display
+ */
 import javafx.scene.control.Button;
 
 public interface JavaFXChessBoardDisplay {

@@ -290,7 +290,7 @@ public class Project5XianqiTester {
         assertEquals(6, chessBoard.getPiece(9, 6).getColumn());
     }
 
-    // compare the label of all the rooks on the table to the correct label
+    // compare the label of all the rooks on the table to the correct position
     @Test
     public void testRookPosition() {
         // initialize the complete chess board
@@ -421,6 +421,7 @@ public class Project5XianqiTester {
     /** TEST FIRST PLAYER */
     @Test
     public void testFirstPlayer() {
+
         // test north being the first player
         ChessBoard northBoard = init("XIANQI", north);
         assertEquals(north, northBoard.getGameRules().getFirstPlayer());
@@ -436,6 +437,7 @@ public class Project5XianqiTester {
         // test west being the first player
         ChessBoard westBoard = init("XIANQI", west);
         assertEquals(west, westBoard.getGameRules().getFirstPlayer());
+
     }
 
 }

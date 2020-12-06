@@ -11,19 +11,33 @@ public class Xianqi implements ChessGame {
     // the first player that will be playing
     public Side firstPlayer;
 
-    // Xianqi constructor that takes in side of first player
+    /**
+     * Xianqi constructor that takes in side of first player
+     * @param currentSide the current player
+     */
     public Xianqi(Side currentSide) {
         this.currentSide = currentSide;
         this.firstPlayer = currentSide;
     }
 
+    /**
+     * determine whether a selected piece can be played or not
+     * @param piece   the piece to be played
+     * @param row     the row of the square the piece is on
+     * @param column  the column of the square the piece is on
+     * @return whether a selected piece can be played or not
+     */
     @Override
-    // return whether a selected piece can be played or not
     public boolean legalPieceToPlay(ChessPiece piece, int row, int column) {
-        return true;
-//        return piece.getChessBoard().hasPiece(row, column) && piece.getSide() == currentSide;
+//        return true;
+        return piece.getChessBoard().hasPiece(row, column) && piece.getSide() == currentSide;
     }
 
+    /**
+     * determine whether the king are facing each other
+     * @param piece
+     * @return
+     */
     private boolean notFacingKing(ChessPiece piece) {
         ChessPiece northK = null;
         ChessPiece southK = null;
@@ -57,6 +71,13 @@ public class Xianqi implements ChessGame {
         return blocked;
     }
 
+    /**
+     * determine whether to make a move
+     * @param piece     the piece to move
+     * @param toRow     the row of the square the piece is moving to
+     * @param toColumn  the column of the square the piece is moving to
+     * @return whether to make a move
+     */
     @Override
     public boolean makeMove(ChessPiece piece, int toRow, int toColumn) {
         if (piece.isLegalMove(toRow, toColumn)) {

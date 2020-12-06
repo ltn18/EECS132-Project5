@@ -39,7 +39,6 @@ public interface ChessGame {
     }
 
     /**
-     * @author: Lam Nguyen
      * Return the first player's side that will be playing the game.
      * Created for JUnit testing.
      * @return the first player's side
@@ -47,20 +46,17 @@ public interface ChessGame {
     public Side getFirstPlayer();
 
     /**
-     * @author: Lam Nguyen
      * @return the number of rows in this chess game
      */
     int getNumRows();
 
     /**
-     * @author: Lam Nguyen
      * @return the number of columns in this chess game
      */
     int getNumColumns();
 
     /**
-     * @author: Lam Nguyen
-     *
+     * call to initialize the game
      */
     void startGame(ChessBoard board);
 

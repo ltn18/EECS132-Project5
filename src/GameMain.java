@@ -1,6 +1,14 @@
+/**
+ * @author: Lam Nguyen
+ * a class representing european chess board and xianqi board
+ */
 public class GameMain {
 
-    // initialize the complete european board with south-north direction
+    /**
+     * initialize the complete european board with south-north direction
+     * @param first first player to play
+     * @return the complete european board with south-north direction
+     */
     public static SwingChessBoard initEuropeanChess(ChessGame.Side first) {
         ChessGame.Side second = first == ChessGame.Side.SOUTH ? ChessGame.Side.NORTH : ChessGame.Side.SOUTH;
         EuropeanChess europeanChess = new EuropeanChess(first);
@@ -41,7 +49,11 @@ public class GameMain {
         return swingChessBoard;
     }
 
-    // initialize the complete xianqi board with south-north direction
+    /**
+     * initialize the complete xianqi board with south-north direction
+     * @param first first player to play
+     * @return the complete xianqi board with south-north direction
+     */
     public static SwingChessBoard initXianqi(ChessGame.Side first) {
         ChessGame.Side second = first == ChessGame.Side.SOUTH ? ChessGame.Side.NORTH : ChessGame.Side.SOUTH;
         Xianqi xianqi = new Xianqi(first);
@@ -93,6 +105,12 @@ public class GameMain {
         return swingChessBoard;
     }
 
+    /**
+     * initialized the game board
+     * @param input the board to be selected
+     * @param first first player to play
+     * @return the needed board
+     */
     public static SwingChessBoard init(String input, ChessGame.Side first) {
         if (input.toUpperCase().equals("CHESS")) {
             return GameMain.initEuropeanChess(first);

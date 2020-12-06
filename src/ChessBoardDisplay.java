@@ -1,8 +1,7 @@
 import javax.swing.*;
 
-/** Rules for how we want the chess board to display
- *
- * @author Harold Connamacher
+/**
+ * Rules for how we want the chess board to display
  */
 public interface ChessBoardDisplay {
 

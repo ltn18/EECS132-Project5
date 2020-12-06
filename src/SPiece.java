@@ -7,12 +7,23 @@ import javax.swing.*;
 
 public abstract class SPiece extends ChessPiece {
 
-    // SPiece constructor that takes in label, side, and board associated with the piece
+    /**
+     * SPiece constructor that takes in label, side, and board associated with the piece
+     * @param label the label for the piece
+     * @param side the side of the piece
+     * @param board piece's associated board
+     */
     public SPiece(String label, ChessGame.Side side, ChessBoard board) {
         super(label, side, board);
     }
 
-    // check whether the king is moved properly
+    /**
+     * check whether the king is moved properly
+     * @param piece the piece to be considered
+     * @param toRow destination row
+     * @param toColumn destination column
+     * @return whether the king is moved properly
+     */
     private boolean legalKing(ChessPiece piece, int toRow, int toColumn) {
 
         // Xianqi North South Game
@@ -71,7 +82,13 @@ public abstract class SPiece extends ChessPiece {
         return true;
     }
 
-    // check whether the xianqi soldier is moved properly
+    /**
+     * check whether the xianqi soldier is moved properly
+     * @param piece the piece to be considered
+     * @param toRow destination row
+     * @param toColumn destination column
+     * @return whether the xianqi soldier is moved properly
+     */
     private boolean legalSoldier(ChessPiece piece, int toRow, int toColumn) {
         // side of the piece
         ChessGame.Side side = piece.getSide();
@@ -98,6 +115,7 @@ public abstract class SPiece extends ChessPiece {
                 }
             }
 
+            // determine whether the soldier has pass boundary
             if ((side == ChessGame.Side.NORTH && toRow >= 5)
                     || (side == ChessGame.Side.SOUTH && toRow <= 4)) {
                 piece.setSoldierPassBound(true);
@@ -107,7 +125,13 @@ public abstract class SPiece extends ChessPiece {
         return true;
     }
 
-    // check whether the pawn is moved properly
+    /**
+     * check whether the pawn is moved properly
+     * @param piece the piece to be considered
+     * @param toRow the destination row
+     * @param toColumn the destination column
+     * @return whether the pawn is moved properly
+     */
     private boolean legalPawn(ChessPiece piece, int toRow, int toColumn) {
         if (piece.getLabel().equals("P")) {
             // check whether the movement of the pawn exceeds one step
@@ -136,7 +160,11 @@ public abstract class SPiece extends ChessPiece {
         }
     }
 
-    // upgrade the pawn when it has reach the other side of the board
+    /**
+     * upgrade the pawn when it has reach the other side of the board
+     * @param toRow destination row
+     * @param toColumn destination column
+     */
     private void upgradePawn(int toRow, int toColumn) {
         // take the input of the user to update the pawn
         String s = JOptionPane.showInputDialog("Available Options: N B Q R", "input");
@@ -164,7 +192,11 @@ public abstract class SPiece extends ChessPiece {
         }
     }
 
-    // check whether the castle move is made properly
+    /**
+     * check whether the castle move is made properly
+     * @param toColumn destination column
+     * @return whether the castle move is made properly
+     */
     private boolean legalCastle(int toColumn) {
         if (getKingFirstMove()) {
             if (getRow() == 0 || getRow() == 7) {
@@ -176,7 +208,12 @@ public abstract class SPiece extends ChessPiece {
         return false;
     }
 
-    // check whether the piece has made a legal move
+    /**
+     * check whether the piece has made a legal move
+     * @param toRow destination row
+     * @param toColumn destination column
+     * @return whether the piece has made a legal move
+     */
     public boolean isLegalMove(int toRow, int toColumn) {
         if (getRow() == toRow && getColumn() == toColumn) {
             return false;
@@ -207,6 +244,8 @@ public abstract class SPiece extends ChessPiece {
                 || legalVerticalPath(toRow, toColumn));
     }
 
-    // deal with actions after the move is done
+    /**
+     * deal with actions after the move is done
+     */
     public void moveDone() {}
 }
