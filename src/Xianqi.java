@@ -38,37 +38,34 @@ public class Xianqi implements ChessGame {
      * @param piece
      * @return
      */
-    private boolean notFacingKing(ChessPiece piece) {
-        ChessPiece northK = null;
-        ChessPiece southK = null;
+    private static boolean facingKing(ChessPiece piece) {
+        ChessPiece northK = new XianqiKingPiece(Side.NORTH, piece.getChessBoard());
+        ChessPiece southK = new XianqiKingPiece(Side.SOUTH, piece.getChessBoard());
+        ChessBoard board = piece.getChessBoard();
 
-//        for (int i = 3; i <= 5; i++) {
-//            for (int j = 0; j <= 2; j++) {
-//                if (piece.getChessBoard().hasPiece(i, j)
-//                        && piece.getChessBoard().getPiece(i, j).getLabel().equals("K")) {
-//                    northK = piece.getChessBoard().getPiece(i, j);
-//                }
-//            }
-//
-//            for (int j = 7; j <= 9; j++) {
-//                if (piece.getChessBoard().hasPiece(i, j)
-//                        && piece.getChessBoard().getPiece(i, j).getLabel().equals("K")) {
-//                    southK = piece.getChessBoard().getPiece(i, j);
-//                }
-//            }
-//        }
-
-        boolean blocked = false;
-        if (southK != null && northK != null
-                && southK.getColumn() == northK.getColumn()) {
-            for (int i = 0; i < 10; i++) {
-                if (piece.getChessBoard().hasPiece(i, northK.getColumn())) {
-                    blocked = true;
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (board.hasPiece(i, j) && board.getPiece(i, j).getLabel().equals("X")) {
+                    ChessPiece king = board.getPiece(i, j);
+                    if (king.getSide() == Side.NORTH) {
+                        northK = king;
+                    }
+                    else if (king.getSide() == Side.SOUTH) {
+                        southK = king;
+                    }
                 }
             }
         }
 
-        return blocked;
+        if (southK.getColumn() == northK.getColumn()) {
+            for (int i = Math.min(southK.getRow(), northK.getRow()) + 1; i < Math.max(southK.getRow(), northK.getRow()); i++) {
+                if (piece.getChessBoard().hasPiece(i, northK.getColumn())) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -86,15 +83,12 @@ public class Xianqi implements ChessGame {
             // the piece that is temporarily removed from the table
             ChessPiece save = piece.getChessBoard().removePiece(piece.getRow(), piece.getColumn());
 
-//            // check after the piece has been removed and make move if legit
-//            if (notFacingKing(piece)) {
-//                piece.getChessBoard().addPiece(save, toRow, toColumn);
-//            } else {
-//                piece.getChessBoard().addPiece(save, piece.getRow(), piece.getColumn());
-//            }
-
-            piece.getChessBoard().addPiece(save, toRow, toColumn);
-
+            // check after the piece has been removed and make move if legit
+            if (!facingKing(piece)) {
+                piece.getChessBoard().addPiece(save, toRow, toColumn);
+            } else {
+                piece.getChessBoard().addPiece(save, save.getRow(), save.getColumn());
+            }
 
             System.out.println("curr: " + piece.getRow() + " " + piece.getColumn() + " " + piece.getLabel());
 
@@ -161,5 +155,24 @@ public class Xianqi implements ChessGame {
      */
     public boolean canChangeSelection(ChessPiece piece, int row, int column) {
         return true;
+    }
+
+
+    public static void main(String[] args) {
+        ChessGame.Side first = Side.SOUTH;
+        ChessGame.Side second = Side.NORTH;
+        Xianqi xianqi = new Xianqi(first);
+        SwingEuropeanChessDisplay swingEuropeanChessDisplay = new SwingEuropeanChessDisplay();
+        SwingChessBoard swingChessBoard = new SwingChessBoard(10, 9, swingEuropeanChessDisplay, xianqi);
+
+        // add KingPiece
+        swingChessBoard.addPiece(new XianqiKingPiece(second, swingChessBoard), 0, 4);
+        swingChessBoard.addPiece(new XianqiKingPiece(first, swingChessBoard), 9, 4);
+
+        // add a piece
+        swingChessBoard.addPiece(new HorsePiece(first, swingChessBoard),5, 4);
+        swingChessBoard.addPiece(new HorsePiece(first, swingChessBoard),6, 4);
+
+        System.out.println("Facing Kings: " + Xianqi.facingKing(new HorsePiece(first, swingChessBoard)));
     }
 }
